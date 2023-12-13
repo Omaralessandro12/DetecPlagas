@@ -19,7 +19,7 @@ IMAGE = 'Imagen'
 #VIDEO = 'Video'
 #YOUTUBE = 'YouTube'
 
-SOURCES_LIST = [IMAGE, WEBCAM ]
+SOURCES_LIST = [IMAGE ]
 
 # Images config
 IMAGES_DIR = ROOT / 'images'
