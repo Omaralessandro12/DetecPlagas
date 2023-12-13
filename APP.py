@@ -26,7 +26,7 @@ st.sidebar.header("Configuración del modelo de aprendizaje automático")
 
 # Model Options
 model_types_available = ['Yolov8', 'OtraTarea', 'OtraTarea2']  # Agrega más tareas según sea necesario
-model_type = st.sidebar.multiselect("Seleccionar tarea", model_types_available, default=['Deteccion'])
+model_type = st.sidebar.multiselect("Seleccionar tarea", model_types_available, default=['Yolov8'])
 
 
 
