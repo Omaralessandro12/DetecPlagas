@@ -18,7 +18,7 @@ st.set_page_config(
 )
 
 st.title("Detección de Plagas en la agricultura Mexicana")
-st.write ("APLICACION PARA LA DETECCIÓN DE INSECTOS E ACAROS EN LA AGRICULTURA MEXICANA ")
+st.write ("APLICACIÓN PARA LA DETECCIÓN DE INSECTOS E ACAROS EN LA AGRICULTURA MEXICANA ")
 
 
 # Sidebar
