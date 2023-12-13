@@ -1,0 +1,2 @@
+# DetecPlagas
+Puebras de deteccion 
