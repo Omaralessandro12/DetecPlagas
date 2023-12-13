@@ -31,10 +31,6 @@ model_type = st.sidebar.multiselect("Seleccionar tarea", model_types_available, 
 #    "Seleccionar tarea", ['Deteccion' ])
 
 
-confidence = float(st.sidebar.slider(
-    "Seleccione la confianza del modelo", 25, 100, 40)) / 100
-
-
 if not model_type:
     model_type = ['Deteccion']
 
@@ -42,12 +38,6 @@ selected_task = model_type[0]
 
 if selected_task == 'Deteccion':
     model_path = Path(settings.DETECTION_MODEL)
-
-# Selecting Detection Or Segmentation
-#if model_type == 'Deteccion':
-#   model_path = Path(settings.DETECTION_MODEL)
-#elif model_type == 'Segmentation':
-#    model_path = Path(settings.SEGMENTATION_MODEL)
 
 # Load Pre-trained ML Model
 try:
