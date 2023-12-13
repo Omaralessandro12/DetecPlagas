@@ -25,7 +25,7 @@ st.write ("APLICACION PARA LA DETECCIÓN DE INSECTOS E ACAROS EN LA AGRICULTURA 
 st.sidebar.header("Configuración del modelo de aprendizaje automático")
 
 # Model Options
-model_types_available = ['Deteccion', 'OtraTarea', 'OtraTarea2']  # Agrega más tareas según sea necesario
+model_types_available = ['Yolov8', 'OtraTarea', 'OtraTarea2']  # Agrega más tareas según sea necesario
 model_type = st.sidebar.multiselect("Seleccionar tarea", model_types_available, default=['Deteccion'])
 
 
@@ -35,11 +35,11 @@ model_type = st.sidebar.multiselect("Seleccionar tarea", model_types_available, 
 
 
 if not model_type:
-    model_type = ['Deteccion']
+    model_type = ['Yolov8']
 
 selected_task = model_type[0]
 
-if selected_task == 'Deteccion':
+if selected_task == 'Yolov8':
     model_path = Path(settings.DETECTION_MODEL)
 
 # Load Pre-trained ML Model
