@@ -71,7 +71,7 @@ if source_radio == settings.IMAGE:
             st.error(ex)
 
     with col2:        
-            if st.sidebar.button('Detectar Objeto'):
+            if st.sidebar.button('Detectar Plaga'):
                 res = model.predict(uploaded_image,
                                     conf=confidence
                                     )
