@@ -67,8 +67,8 @@ if source_radio == settings.IMAGE:
 
     with col2:        
             if st.sidebar.button('Detectar Plaga'):
-                res = model.predict(uploaded_image,
-                                    conf=confidence
+                res = model.predict(uploaded_image
+                            
                                     )
                 boxes = res[0].boxes
                 res_plotted = res[0].plot()[:, :, ::-1]
