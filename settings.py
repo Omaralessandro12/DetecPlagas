@@ -28,7 +28,7 @@ DEFAULT_DETECT_IMAGE = IMAGES_DIR / 'office_4_detected.jpg'
 
 # ML Model config
 MODEL_DIR = ROOT / 'weights'
-DETECTION_MODEL = MODEL_DIR / 'best.pt'
+DETECCIÓN_MODEL = MODEL_DIR / 'best.pt'
 SEGMENTATION_MODEL = MODEL_DIR / 'yolov8n-seg.pt'
 
 # Webcam
