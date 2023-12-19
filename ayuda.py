@@ -9,7 +9,7 @@ import av
 import cv2
 from pytube import YouTube
 
-import settings
+import ajustes
 
 
 def load_model(model_path):
