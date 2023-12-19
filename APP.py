@@ -22,7 +22,7 @@ st.title("Detección de Plagas en la agricultura Mexicana")
 st.write ("APLICACIÓN PARA LA DETECCIÓN DE INSECTOS E ACAROS EN LA AGRICULTURA MEXICANA ")
 
 
-# Sidebar
+# Barra lateral
 st.sidebar.header("Configuración del modelo de aprendizaje automático")
 
 # Opciones de Modelos 
