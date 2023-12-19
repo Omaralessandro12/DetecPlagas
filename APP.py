@@ -50,7 +50,7 @@ except Exception as ex:
     st.error(ex)
 
 source_radio = st.sidebar.radio(
-    "Seleccione Fuente", settings.SOURCES_LIST)
+    "Seleccione Fuente", settings.LISTA_FUENTES)
 
 source_img = None
 # If image is selected
