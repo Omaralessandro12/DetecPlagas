@@ -5,5 +5,4 @@ streamlit-webrtc==0.35.1
 torch==2.0.1 
 ultralytics==8.0.150
 pafy==0.5.5
-twilio~=8.9.1
 
