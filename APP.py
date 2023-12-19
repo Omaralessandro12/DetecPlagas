@@ -44,15 +44,11 @@ except Exception as ex:
     st.error(f"No se puede cargar el modelo. Verifique la ruta especificada: {model_path}")
     st.error(ex)
 
-source_radio = st.sidebar.radio(
-    "Seleccione Fuente", settings.LISTA_FUENTES)
+# Cargar imagen directamente sin seleccionar fuente ni botón
+source_img = st.sidebar.file_uploader("Elige una imagen...", type=("jpg", "jpeg", "png", 'bmp', 'webp'))
 
-source_img = None
-# If image is selected
-if source_radio == settings.IMAGE:
-    source_img = st.sidebar.file_uploader(
-        "Elige una imagen...", type=("jpg", "jpeg", "png", 'bmp', 'webp'))
-
+if source_img:
+   
     col1, col2 = st.columns(2)
 
     with col1:
