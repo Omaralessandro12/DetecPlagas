@@ -76,7 +76,4 @@ if source_img:
                             st.write(box.data)
                 except Exception as ex:
                     # st.write(ex)
-                    st.write("No image is uploaded yet!")
-
-else:
-    st.error("Please select a valid source type!")
+                    st.write("¡Aún no se ha subido ninguna imagen!")
