@@ -1,2 +1,2 @@
-# Plaga_Pru2
+# IDENTIFICACIONDEPLAGAS
 Puebras de deteccion 
