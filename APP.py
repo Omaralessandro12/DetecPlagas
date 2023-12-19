@@ -7,7 +7,7 @@ import streamlit as st
 
 # Módulos locales
 import settings
-import helper
+import ayuda
 
 # Configuracion del diseño de la página
 
@@ -39,7 +39,7 @@ if selected_task == 'Yolov8':
 
 # Cargar modelo ML previamente entrenado
 try:
-    model = helper.load_model(model_path)
+    model = ayuda.load_model(model_path)
 except Exception as ex:
     st.error(f"No se puede cargar el modelo. Verifique la ruta especificada: {model_path}")
     st.error(ex)
