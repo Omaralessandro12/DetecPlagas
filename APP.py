@@ -63,17 +63,11 @@ if fuente_img:
 
     with col2:        
             if st.sidebar.button('Detectar Plaga'):
-                res = model.predict(uploaded_image
-                            
+                res = model.predict(uploaded_image                            
                                     )
                 boxes = res[0].boxes
                 res_plotted = res[0].plot()[:, :, ::-1]
-                st.image(res_plotted, caption='Detected Image',
-                         use_column_width=True)
-                try:
-                    with st.expander("Resultados de la detección"):
-                        for box in boxes:
-                            st.write(box.data)
+               
                 except Exception as ex:
                     # st.write(ex)
                     st.write("¡Aún no se ha subido ninguna imagen!")
