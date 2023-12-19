@@ -34,6 +34,7 @@ if not model_type:
 
 selected_task = model_type[0]
 
+# Seleccionado model, corregir para dos modelos a la vez
 if selected_task == 'Yolov8':
     model_path = Path(ajustes.DETECCIÓN_MODEL)
 
