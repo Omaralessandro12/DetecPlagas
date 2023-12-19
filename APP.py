@@ -47,15 +47,15 @@ except Exception as ex:
 # Cargar imagen directamente sin seleccionar fuente ni botón
 source_img = st.sidebar.file_uploader("Elige una imagen...", type=("jpg", "jpeg", "png", 'bmp', 'webp'))
 
-if source_img:
+if fuente_img:
    
     col1, col2 = st.columns(2)
 
     with col1:
         try:
-            if source_img:
-                uploaded_image = PIL.Image.open(source_img)
-                st.image(source_img, caption="Imagen Cargada",
+            if fuente_img:
+                uploaded_image = PIL.Image.open(fuente_img)
+                st.image(fuente_img, caption="Imagen Cargada",
                          use_column_width=True)
         except Exception as ex:
             st.error("Se produjo un error al abrir la imagen.")
