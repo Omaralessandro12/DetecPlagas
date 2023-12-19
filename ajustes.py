@@ -14,9 +14,6 @@ if root_path not in sys.path:
 # Obtener la ruta relativa del directorio raíz con respecto al directorio de trabajo actual
 ROOT = root_path.relative_to(Path.cwd())
 
-# Fuentes
-IMAGE = 'Imagen'
-
 
 LISTA_FUENTES = [IMAGE ]
 
@@ -31,5 +28,3 @@ MODEL_DIR = ROOT / 'weights'
 DETECCIÓN_MODEL = MODEL_DIR / 'best.pt'
 SEGMENTATION_MODEL = MODEL_DIR / 'yolov8n-seg.pt'
 
-# Webcam
-WEBCAM_PATH = 0
