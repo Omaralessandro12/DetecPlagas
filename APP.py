@@ -35,7 +35,7 @@ if not model_type:
 selected_task = model_type[0]
 
 if selected_task == 'Yolov8':
-    model_path = Path(settings.DETECTION_MODEL)
+#    model_path = Path(settings.DETECTION_MODEL)
 
 # Cargar modelo ML previamente entrenado
 try:
