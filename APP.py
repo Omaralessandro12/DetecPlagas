@@ -6,7 +6,7 @@ import PIL
 import streamlit as st
 
 # Módulos locales
-import settings
+import ajustes
 import ayuda
 
 # Configuracion del diseño de la página
