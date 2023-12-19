@@ -1,15 +1,16 @@
-# Python In-built packages
+# Paquetes integrados de Python
 from pathlib import Path
 import PIL
 
-# External packages
+# Paquetes externos
 import streamlit as st
 
-# Local Modules
+# Módulos locales
 import settings
 import helper
 
-# Setting page layout
+# Configuracion del diseño de la página
+
 st.set_page_config(
     page_title="Deteccion de Plagas en la agricultura Mexicana",
     # page_icon="🤖",
@@ -24,15 +25,9 @@ st.write ("APLICACIÓN PARA LA DETECCIÓN DE INSECTOS E ACAROS EN LA AGRICULTURA
 # Sidebar
 st.sidebar.header("Configuración del modelo de aprendizaje automático")
 
-# Model Options
+# Opciones de Modelos 
 model_types_available = ['Yolov8', 'Resnet50']  # Agrega más tareas según sea necesario
 model_type = st.sidebar.multiselect("Seleccionar tarea", model_types_available, default=['Yolov8'])
-
-
-
-#model_type = st.sidebar.radio(
-#    "Seleccionar tarea", ['Deteccion' ])
-
 
 if not model_type:
     model_type = ['Yolov8']
@@ -42,11 +37,11 @@ selected_task = model_type[0]
 if selected_task == 'Yolov8':
     model_path = Path(settings.DETECTION_MODEL)
 
-# Load Pre-trained ML Model
+# Cargar modelo ML previamente entrenado
 try:
     model = helper.load_model(model_path)
 except Exception as ex:
-    st.error(f"Unable to load model. Check the specified path: {model_path}")
+    st.error(f"No se puede cargar el modelo. Verifique la ruta especificada: {model_path}")
     st.error(ex)
 
 source_radio = st.sidebar.radio(
