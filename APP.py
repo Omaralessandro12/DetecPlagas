@@ -45,7 +45,7 @@ except Exception as ex:
     st.error(ex)
 
 # Cargar imagen directamente sin seleccionar fuente ni botón
-source_img = st.sidebar.file_uploader("Elige una imagen...", type=("jpg", "jpeg", "png", 'bmp', 'webp'))
+fuente_img = st.sidebar.file_uploader("Elige una imagen...", type=("jpg", "jpeg", "png", 'bmp', 'webp'))
 
 if fuente_img:
    
