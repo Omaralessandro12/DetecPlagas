@@ -67,6 +67,7 @@ if fuente_img:
                                     )
                 boxes = res[0].boxes
                 res_plotted = res[0].plot()[:, :, ::-1]
+            try:
                
                 except Exception as ex:
                     # st.write(ex)
