@@ -67,6 +67,6 @@ if fuente_img:
                                     )
                 boxes = res[0].boxes
                 res_plotted = res[0].plot()[:, :, ::-1]
-                st.image(res_plotted, caption='Detected Image',
+                st.image(res_plotted, caption='Imagen Detectada',
                          use_column_width=True)
                
