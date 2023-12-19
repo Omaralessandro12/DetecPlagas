@@ -14,6 +14,9 @@ if root_path not in sys.path:
 # Obtener la ruta relativa del directorio raíz con respecto al directorio de trabajo actual
 ROOT = root_path.relative_to(Path.cwd())
 
+# Sources
+IMAGE = 'Imagen'
+
 
 LISTA_FUENTES = [IMAGE ]
 
