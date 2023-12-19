@@ -69,12 +69,10 @@ if fuente_img:
                 res_plotted = res[0].plot()[:, :, ::-1]
                 st.image(res_plotted, caption='Detected Image',
                          use_column_width=True)
-            try:
-                with st.expander("Resultados de la detección"):
+                        try:
+                    with st.expander("Resultados de la detección"):
                         for box in boxes:
                             st.write(box.data)
-
-               
-                 except Exception as ex:
+                except Exception as ex:
                     # st.write(ex)
-                    st.write("¡Aún no se ha subido ninguna imagen!")
+                    st.write("No image is uploaded yet!")
