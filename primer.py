@@ -15,4 +15,4 @@ st.write("Esta aplicación ayuda en la detección de insectos y ácaros en la ag
 github_repo_url = "https://github.com/tu_usuario/tu_repositorio"
 
 if st.button("Ir a la Aplicación en GitHub"):
-    st.markdown(f'[Abrir la Aplicación en GitHub]({github_repo_url})')
+    st.markdown(f'[Abrir la Aplicación en GitHub]({github_repo_url}BreadcrumbsDetecPlagas/APP.py)')
