@@ -19,8 +19,7 @@ st.set_page_config(
 )
 
 st.title("Detección de Plagas en la agricultura Mexicana")
-st.write ("APLICACIÓN PARA LA DETECCIÓN DE INSECTOS E ACAROS EN LA AGRICULTURA MEXICANA ")
-
+st.write("APLICACIÓN PARA LA DETECCIÓN DE INSECTOS E ACAROS EN LA AGRICULTURA MEXICANA ")
 
 # Barra lateral
 st.sidebar.header("Configuración del modelo de aprendizaje automático")
@@ -49,25 +48,33 @@ except Exception as ex:
 fuente_img = st.sidebar.file_uploader("Elige una imagen...", type=("jpg", "jpeg", "png", 'bmp', 'webp'))
 
 if fuente_img:
-   
     col1, col2 = st.columns(2)
 
     with col1:
         try:
             if fuente_img:
                 uploaded_image = PIL.Image.open(fuente_img)
-                st.image(fuente_img, caption="Imagen Cargada",
-                         use_column_width=True)
+                st.image(fuente_img, caption="Imagen Cargada", use_column_width=True)
         except Exception as ex:
             st.error("Se produjo un error al abrir la imagen.")
             st.error(ex)
 
     with col2:        
-            if st.sidebar.button('Detectar Plaga'):
-                res = model.predict(uploaded_image                            
-                                    )
-                boxes = res[0].boxes
-                res_plotted = res[0].plot()[:, :, ::-1]
-                st.image(res_plotted, caption='Imagen Detectada',
-                         use_column_width=True)
-               
+        if st.sidebar.button('Detectar Plaga'):
+            res = model.predict(uploaded_image)
+            boxes = res[0].boxes
+            res_plotted = res[0].plot()[:, :, ::-1]
+            st.image(res_plotted, caption='Imagen Detectada', use_column_width=True)
+
+            # Mostrar estadísticas debajo de la imagen detectada
+            st.subheader("Estadísticas de Detección")
+            st.write(f"Número de plagas detectadas: {len(boxes)}")
+            st.write("Coordenadas de las plagas:")
+            for box in boxes:
+                st.write(f" - {box}")
+
+            # Estadísticas adicionales
+            if len(boxes) > 0:
+                areas = [box[2] * box[3] for box in boxes]
+                st.write(f"Área total de las plagas: {sum(areas)}")
+                st.write(f"Tamaño promedio de las plagas: {sum(areas) / len(areas)}")
