@@ -13,5 +13,10 @@ st.write("Esta aplicación ayuda en la detección de insectos y ácaros en la ag
 app_url = "https://detecplagas-cnprexgkchgbie2kpjkknh.streamlit.app/"
 
 if st.button("Ir a la Aplicación"):
-    st.markdown(f'<iframe src="{app_url}" width="100%" height="800"></iframe>', unsafe_allow_html=True)
-
+    st.markdown(
+        f"""
+        <script>
+            window.location.href = '{app_url}';
+        </script>
+        """, unsafe_allow_html=True
+    )
