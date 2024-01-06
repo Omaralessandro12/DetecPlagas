@@ -12,6 +12,5 @@ st.write("Esta aplicación ayuda en la detección de insectos y ácaros en la ag
 # URL de tu aplicación en Streamlit Sharing
 app_url = "https://detecplagas-cnprexgkchgbie2kpjkknh.streamlit.app/"
 
-# Botón que redirige a la aplicación
-button_code = f'<button onclick="window.location.href = \'{app_url}\'">Ir a la Aplicación</button>'
-st.markdown(button_code, unsafe_allow_html=True)
+if st.button("Ir a la Aplicación"):
+    st.markdown(f'[Abrir la Aplicación]({app_url})')
