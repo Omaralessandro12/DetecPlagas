@@ -1,5 +1,4 @@
 import streamlit as st
-import webbrowser
 
 st.set_page_config(
     page_title="Presentación de la App",
@@ -14,4 +13,4 @@ st.write("Esta aplicación ayuda en la detección de insectos y ácaros en la ag
 app_url = "https://detecplagas-cnprexgkchgbie2kpjkknh.streamlit.app/"
 
 if st.button("Ir a la Aplicación"):
-    webbrowser.open(app_url)
+    st.markdown(f'[Abrir la Aplicación]({app_url})')
