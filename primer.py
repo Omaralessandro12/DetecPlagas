@@ -1,6 +1,5 @@
-# presentacion_app.py
-
 import streamlit as st
+import webbrowser
 
 st.set_page_config(
     page_title="Presentación de la App",
@@ -11,8 +10,9 @@ st.set_page_config(
 st.title("Bienvenido a la Aplicación de Detección de Plagas")
 st.write("Esta aplicación ayuda en la detección de insectos y ácaros en la agricultura mexicana.")
 
-# Enlace a tu repositorio de GitHub
-github_repo_url = "https://github.com/Omaralessandro12/DetecPlagas.git/"
+# Enlace a tu aplicación
+app_url = ""https://github.com/Omaralessandro12/DetecPlagas.git/APP.pyI"  # Reemplaza con la URL correcta de tu aplicación
 
-if st.button("Ir a la Aplicación en GitHub"):
-    st.markdown(f'[Abrir la Aplicación en GitHub]({github_repo_url} DetecPlagas/APP.py)')
+if st.button("Ir a la Aplicación"):
+    webbrowser.open(app_url)
+
