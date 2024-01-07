@@ -74,9 +74,7 @@ if fuente_img:
                    with st.expander("Detection Results"):
                         for box in boxes:
                             st.write(box.data)
-                   except Exception as ex:
-                     # st.write(ex)
-                     st.write("No image is uploaded yet!")
+                   
 
                 
 
