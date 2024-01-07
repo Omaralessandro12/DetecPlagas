@@ -70,12 +70,3 @@ if fuente_img:
                 res_plotted = res[0].plot()[:, :, ::-1]
                 st.image(res_plotted, caption='Imagen Detectada',
                          use_column_width=True)
-               
-
-
-
-            # Estadísticas adicionales
-            if len(boxes) > 0:
-                areas = [box[2] * box[3] for box in boxes]
-                st.write(f"Área total de las plagas: {sum(areas)}")
-                st.write(f"Tamaño promedio de las plagas: {sum(areas) / len(areas)}")
