@@ -63,15 +63,20 @@ if fuente_img:
         if st.sidebar.button('Detectar Plaga'):
             res = model.predict(uploaded_image)
             boxes = res[0].boxes
+            scores = res[0].scores  # Suponiendo que scores contiene las confianzas asociadas a cada detección
             res_plotted = res[0].plot()[:, :, ::-1]
             st.image(res_plotted, caption='Imagen Detectada', use_column_width=True)
 
             # Mostrar estadísticas debajo de la imagen detectada
             st.subheader("Estadísticas de Detección")
             st.write(f"Número de plagas detectadas: {len(boxes)}")
-            st.write("Coordenadas de las plagas:")
-            for box in boxes:
-                st.write(f" - {box}")
+            st.write("Detalles de las plagas:")
+
+            for i, box in enumerate(boxes):
+                st.write(f" - Plaga {i + 1}:")
+                st.write(f"   Coordenadas: {box}")
+                st.write(f"   Nivel de Detección: {scores[i]}")
+
 
             # Estadísticas adicionales
             if len(boxes) > 0:
