@@ -19,7 +19,8 @@ st.set_page_config(
 )
 
 st.title("Detección de Plagas en la agricultura Mexicana")
-st.write("APLICACIÓN PARA LA DETECCIÓN DE INSECTOS E ACAROS EN LA AGRICULTURA MEXICANA ")
+st.write ("APLICACIÓN PARA LA DETECCIÓN DE INSECTOS E ACAROS EN LA AGRICULTURA MEXICANA ")
+
 
 # Barra lateral
 st.sidebar.header("Configuración del modelo de aprendizaje automático")
@@ -48,34 +49,29 @@ except Exception as ex:
 fuente_img = st.sidebar.file_uploader("Elige una imagen...", type=("jpg", "jpeg", "png", 'bmp', 'webp'))
 
 if fuente_img:
+   
     col1, col2 = st.columns(2)
 
     with col1:
         try:
             if fuente_img:
                 uploaded_image = PIL.Image.open(fuente_img)
-                st.image(fuente_img, caption="Imagen Cargada", use_column_width=True)
+                st.image(fuente_img, caption="Imagen Cargada",
+                         use_column_width=True)
         except Exception as ex:
             st.error("Se produjo un error al abrir la imagen.")
             st.error(ex)
 
     with col2:        
-        if st.sidebar.button('Detectar Plaga'):
-            res = model.predict(uploaded_image)
-            boxes = res[0].boxes
-            scores = res[0].scores  # Suponiendo que scores contiene las confianzas asociadas a cada detección
-            res_plotted = res[0].plot()[:, :, ::-1]
-            st.image(res_plotted, caption='Imagen Detectada', use_column_width=True)
+            if st.sidebar.button('Detectar Plaga'):
+                res = model.predict(uploaded_image                            
+                                    )
+                boxes = res[0].boxes
+                res_plotted = res[0].plot()[:, :, ::-1]
+                st.image(res_plotted, caption='Imagen Detectada',
+                         use_column_width=True)
+               
 
-            # Mostrar estadísticas debajo de la imagen detectada
-            st.subheader("Estadísticas de Detección")
-            st.write(f"Número de plagas detectadas: {len(boxes)}")
-            st.write("Detalles de las plagas:")
-
-            for i, box in enumerate(boxes):
-                st.write(f" - Plaga {i + 1}:")
-                st.write(f"   Coordenadas: {box}")
-                st.write(f"   Nivel de Detección: {scores[i]}")
 
 
             # Estadísticas adicionales
