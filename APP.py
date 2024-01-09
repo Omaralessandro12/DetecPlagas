@@ -19,12 +19,12 @@ st.set_page_config(
 )
 
 st.title("Detección de Plagas en la agricultura Mexicana")
-st.write("APLICACIÓN PARA LA DETECCIÓN DE INSECTOS E ACAROS EN LA AGRICULTURA MEXICANA ")
+st.write ("APLICACIÓN PARA LA DETECCIÓN DE INSECTOS E ACAROS EN LA AGRICULTURA MEXICANA ")
 
 # Barra lateral
 st.sidebar.header("Configuración del modelo de aprendizaje automático")
 
-# Opciones de Modelos
+# Opciones de Modelos 
 model_types_available = ['Yolov8', 'Resnet50']  # Agrega más tareas según sea necesario
 model_type = st.sidebar.multiselect("Seleccionar tarea", model_types_available, default=['Yolov8'])
 
@@ -33,9 +33,11 @@ if not model_type:
 
 selected_task = model_type[0]
 
-# Seleccionado model, corregir para dos modelos a la vez
+# Seleccionado modelo, corregir para dos modelos a la vez
 if selected_task == 'Yolov8':
     model_path = Path(ajustes.DETECCIÓN_MODEL)
+elif selected_task == 'Resnet50':
+    model_path = Path(ajustes.RESNET_MODEL)
 
 # Cargar modelo ML previamente entrenado
 try:
@@ -48,7 +50,6 @@ except Exception as ex:
 fuente_img = st.sidebar.file_uploader("Elige una imagen...", type=("jpg", "jpeg", "png", 'bmp', 'webp'))
 
 if fuente_img:
-
     col1, col2 = st.columns(2)
 
     with col1:
@@ -60,30 +61,18 @@ if fuente_img:
             st.error("Se produjo un error al abrir la imagen.")
             st.error(ex)
 
-    with col2:
+    with col2:        
         if st.sidebar.button('Detectar Plaga'):
-            try:
+            if selected_task == 'Yolov8':
                 res = model.predict(uploaded_image)
                 boxes = res[0].boxes
                 res_plotted = res[0].plot()[:, :, ::-1]
                 st.image(res_plotted, caption='Imagen Detectada', use_column_width=True)
+            elif selected_task == 'Resnet50':
+                # Lógica para usar Resnet50, ajusta según sea necesario
+                res = model.predict(uploaded_image)
+                # Agrega la lógica de visualización específica de Resnet50 si es necesario
+                st.image(res, caption='Imagen Detectada por Resnet50', use_column_width=True)
 
-                with st.expander("Detection Results"):
-                    for box in boxes:
-                        x_min, y_min, x_max, y_max, confianza, id_plaga = box.data
-                        if id_plaga in info_plagas:
-                            info = info_plagas[id_plaga]
-                            st.write(f"Nombre: {info['nombre']}")
-                            st.write(f"Plaga: {info['plaga']}")
-                            st.write(f"Cómo combatir: {info['combate']}")
-                        else:
-                            st.write(f"Información no disponible para ID de plaga: {id_plaga}")
-
-            except Exception as ex:
-                st.error("Se produjo un error al realizar la detección.")
-                st.error(ex)
-
-
-                
 
 
