@@ -70,7 +70,15 @@ if fuente_img:
 
                 with st.expander("Detection Results"):
                     for box in boxes:
-                        st.write(box.data)
+                        x_min, y_min, x_max, y_max, confianza, id_plaga = box.data
+                        if id_plaga in info_plagas:
+                            info = info_plagas[id_plaga]
+                            st.write(f"Nombre: {info['nombre']}")
+                            st.write(f"Plaga: {info['plaga']}")
+                            st.write(f"Cómo combatir: {info['combate']}")
+                        else:
+                            st.write(f"Información no disponible para ID de plaga: {id_plaga}")
+
             except Exception as ex:
                 st.error("Se produjo un error al realizar la detección.")
                 st.error(ex)
