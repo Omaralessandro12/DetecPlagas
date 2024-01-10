@@ -9,8 +9,9 @@ st.set_page_config(
 st.title("Bienvenido a la Aplicación de Detección de Plagas")
 st.write("Esta aplicación ayuda en la detección de insectos y ácaros en la agricultura mexicana.")
 
-# URL de tu aplicación en Streamlit Sharing
+# URL de App.py
 app_url = "https://detecplagas-cnprexgkchgbie2kpjkknh.streamlit.app/"
 
+#validar javascript para abrir pagina ahi mismo 
 if st.button("Ir a la Aplicación"):
     st.markdown(f'[Abrir la Aplicación]({app_url})')  
