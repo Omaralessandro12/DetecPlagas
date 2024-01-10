@@ -46,7 +46,7 @@ except Exception as ex:
     st.error(f"No se puede cargar el modelo. Verifique la ruta especificada: {model_path}")
     st.error(ex)
 
-# Cargar imagen directamente sin seleccionar fuente ni botón
+# Cargar imagen directamente  
 fuente_img = st.sidebar.file_uploader("Elige una imagen...", type=("jpg", "jpeg", "png", 'bmp', 'webp'))
 
 if fuente_img:
@@ -69,9 +69,9 @@ if fuente_img:
                 res_plotted = res[0].plot()[:, :, ::-1]
                 st.image(res_plotted, caption='Imagen Detectada', use_column_width=True)
             elif selected_task == 'Resnet50':
-                # Lógica para usar Resnet50, ajusta según sea necesario
+                # llamada a resnet50
                 res = model.predict(uploaded_image)
-                # Agrega la lógica de visualización específica de Resnet50 si es necesario
+                # visualizacion resnet 
                 st.image(res, caption='Imagen Detectada por Resnet50', use_column_width=True)
 
 
