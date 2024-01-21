@@ -73,6 +73,9 @@ if fuente_img:
                 res = model.predict(uploaded_image)
                 # visualizacion resnet 
                 st.image(res, caption='Imagen Detectada por Resnet50', use_column_width=True)
+             # Mostrar el número de detecciones
+            st.write(f'Número de detecciones: {num_detections}')
+                
 
 
 
