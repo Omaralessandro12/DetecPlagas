@@ -66,6 +66,7 @@ if fuente_img:
             if selected_task == 'Yolov8':
                 res = model.predict(uploaded_image)
                 boxes = res[0].boxes
+                 num_detections = len(boxes)
                 res_plotted = res[0].plot()[:, :, ::-1]
                 st.image(res_plotted, caption='Imagen Detectada', use_column_width=True)
             elif selected_task == 'Resnet50':
