@@ -20,12 +20,6 @@ IMAGE = 'Imagen'
 
 LISTA_FUENTES = [IMAGE ]
 
-# Images config
-IMAGES_DIR = ROOT / 'images'
-DEFAULT_IMAGE = IMAGES_DIR / 'office_4.jpg'
-DEFAULT_DETECT_IMAGE = IMAGES_DIR / 'office_4_detected.jpg'
-
-
 # ML Model config
 MODEL_DIR = ROOT / 'weights'
 DETECCIÓN_MODEL = MODEL_DIR / 'best.pt'
