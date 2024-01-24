@@ -48,24 +48,20 @@ except Exception as ex:
 # Cargar imagen directamente  
 fuente_img = st.sidebar.file_uploader("Elige una imagen...", type=("jpg", "jpeg", "png", 'bmp', 'webp'))
 
-# Variable para controlar si mostrar solo la detección
-show_detection_only = False
-
 if fuente_img:
-    col1, col2 = st.columns(2)
+    if st.sidebar.button('Detectar Plaga'):
+        col1, col2 = st.columns(2)
 
-    with col1:
-        try:
-            if fuente_img:
-                uploaded_image = PIL.Image.open(fuente_img)
-                st.image(fuente_img, caption="Imagen Cargada", use_column_width=True)
-        except Exception as ex:
-            st.error("Se produjo un error al abrir la imagen.")
-            st.error(ex)
+        with col1:
+            try:
+                if fuente_img:
+                    uploaded_image = PIL.Image.open(fuente_img)
+                    st.image(uploaded_image, caption="Imagen Original", use_column_width=True)
+            except Exception as ex:
+                st.error("Se produjo un error al abrir la imagen.")
+                st.error(ex)
 
-    with col2:        
-        if st.sidebar.button('Detectar Plaga'):
-            show_detection_only = True
+        with col2:        
             if selected_task == 'Yolov8':
                 res = model.predict(uploaded_image)
                 boxes = res[0].boxes
@@ -79,9 +75,3 @@ if fuente_img:
                 st.image(res, caption='Imagen Detectada por Resnet50', use_column_width=True)
              # Mostrar el número de detecciones
             st.write(f'Número de detecciones: {num_detections}')
-
-# Mostrar solo la detección si show_detection_only es True
-if show_detection_only and selected_task == 'Yolov8':
-    st.image(res_plotted, caption='Imagen Detectada', use_column_width=True)
-elif show_detection_only and selected_task == 'Resnet50':
-    st.image(res, caption='Imagen Detectada por Resnet50', use_column_width=True)
