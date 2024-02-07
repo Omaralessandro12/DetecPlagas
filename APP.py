@@ -36,7 +36,7 @@ selected_task = model_type[0]
 if selected_task == 'Yolov8':
     model_path = Path(ajustes.DETECCIÓN_MODEL)
 elif selected_task == 'Resnet50':
-    model_path = Path(ajustes.RESNET_MODEL)
+    model_path = ajustes.MODEL_DIR / 'best_mod.pt'
 
 # Cargar modelo ML previamente entrenado
 try:
