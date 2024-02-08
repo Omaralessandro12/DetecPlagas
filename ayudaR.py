@@ -1,21 +1,21 @@
-from tensorflow.keras.applications import ResNet50
-from tensorflow.keras.models import load_model as tf_load_model
+from torchvision.models import resnet50
+import torch
 
 def load_model(model_path):
     """
-    Carga un modelo ResNet50 desde el path especificado.
+    Loads a ResNet50 model from the specified model_path.
 
-    Parámetros:
-        model_path (str): La ruta al archivo del modelo ResNet50.
+    Parameters:
+        model_path (str): The path to the ResNet50 model file.
 
-    Devuelve:
-        Un modelo ResNet50.
+    Returns:
+        A ResNet50 model.
     """
-    try:
-        # Carga el modelo ResNet50 preentrenado desde Keras Applications
-        model = ResNet50(weights='imagenet')
-        return model
-    except Exception as ex:
-        st.error(f"No se puede cargar el modelo ResNet50. Verifique la ruta especificada: {model_path}")
-        st.error(ex)
+    # Cargar el modelo pre-entrenado
+    model = resnet50(pretrained=False)
+    # Cargar los pesos pre-entrenados del archivo
+    model.load_state_dict(torch.load(model_path))
+    # Establecer el modo de evaluación
+    model.eval()
+    return model
 
