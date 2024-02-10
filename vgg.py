@@ -1,10 +1,14 @@
+import os    
 import streamlit as st
 from PIL import Image
 import numpy as np
 import tensorflow as tf
 
+# Obtener la ruta al modelo dentro de la carpeta "weights"
+model_path = os.path.join("weights", "nombre_del_modelo.h5")
+
 # Cargar el modelo VGG16 preentrenado
-model = tf.keras.models.load_model('ruta_al_modelo.h5')
+model = tf.keras.models.load_model(model_path)
 
 # Función para preprocesar la imagen
 def preprocess_image(image):
