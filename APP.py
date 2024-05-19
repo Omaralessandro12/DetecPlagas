@@ -7,7 +7,6 @@ import streamlit as st
 
 # Módulos locales
 import ajustes
-import ayudaR
 import ayuda
 
 # Configuración del diseño de la página
@@ -37,7 +36,7 @@ if selected_task == 'Yolov8':
 model = None  # Inicializar el modelo como None
 if model_path is not None:
     try:
-        model = ayudaR.load_model(model_path)
+        model = ayuda.load_model(model_path)
     except Exception as ex:
         st.error(f"No se puede cargar el modelo. Verifique la ruta especificada: {model_path}")
         st.error(ex)
