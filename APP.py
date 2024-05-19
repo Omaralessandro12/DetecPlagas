@@ -37,14 +37,16 @@ selected_task = model_type[0]
 if selected_task == 'Yolov8':
     model_path = Path(ajustes.DETECCIÓN_MODEL)
 elif selected_task == 'Resnet50':
-    model_path = ajustes.MODEL_DIR / 'best_mod.pt'
+    model_path = None  # Asignar None para omitir la carga del modelo
 
 # Cargar modelo ML previamente entrenado
-try:
-    model = ayudaR.load_model(model_path)
-except Exception as ex:
-    st.error(f"No se puede cargar el modelo. Verifique la ruta especificada: {model_path}")
-    st.error(ex)
+model = None  # Inicializar el modelo como None
+if model_path is not None:
+    try:
+        model = ayudaR.load_model(model_path)
+    except Exception as ex:
+        st.error(f"No se puede cargar el modelo. Verifique la ruta especificada: {model_path}")
+        st.error(ex)
 
 # Cargar imagen directamente  
 fuente_img = st.sidebar.file_uploader("Elige una imagen...", type=("jpg", "jpeg", "png", 'bmp', 'webp'))
@@ -63,16 +65,17 @@ if fuente_img:
                 st.error(ex)
 
         with col2:        
-            if selected_task == 'Yolov8':
-                res = model.predict(uploaded_image)
-                boxes = res[0].boxes
-                num_detections = len(boxes)
-                res_plotted = res[0].plot()[:, :, ::-1]
-                st.image(res_plotted, caption='Imagen Detectada', use_column_width=True)
-            elif selected_task == 'Resnet50':
-                # llamada a resnet50
-                res = model.predict(uploaded_image)
-                # visualizacion resnet 
-                st.image(res, caption='Imagen Detectada por Resnet50', use_column_width=True)
-             # Mostrar el número de detecciones
-            st.write(f'Número de detecciones: {num_detections}')
+            if model is not None:  # Solo ejecutar si se ha cargado un modelo
+                if selected_task == 'Yolov8':
+                    res = model.predict(uploaded_image)
+                    boxes = res[0].boxes
+                    num_detections = len(boxes)
+                    res_plotted = res[0].plot()[:, :, ::-1]
+                    st.image(res_plotted, caption='Imagen Detectada', use_column_width=True)
+                elif selected_task == 'Resnet50':
+                    # llamada a resnet50
+                    res = model.predict(uploaded_image)
+                    # visualizacion resnet 
+                    st.image(res, caption='Imagen Detectada por Resnet50', use_column_width=True)
+                    # Mostrar el número de detecciones
+                    st.write(f'Número de detecciones: {num_detections}')
