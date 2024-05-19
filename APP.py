@@ -24,22 +24,12 @@ st.write("APLICACIÓN PARA LA DETECCIÓN DE INSECTOS Y ÁCAROS EN LA AGRICULTURA
 # Barra lateral
 st.sidebar.header("Configuración del modelo de aprendizaje automático")
 
-# Opciones de Modelos 
-model_types_available = ['Yolov8', 'Resnet50']  # Agrega más tareas según sea necesario
-model_type = st.sidebar.multiselect("Seleccionar tarea", model_types_available, default=['Yolov8'])
+# Seleccionar modelo
+selected_task = 'Yolov8'
 
-if not model_type:
-    st.error("Debes seleccionar al menos un modelo.")
-    st.stop()
-
-# Seleccionado modelo
-selected_task = model_type[0]
-
-# Seleccionado modelo, corregir para dos modelos a la vez
+# Seleccionar modelo
 if selected_task == 'Yolov8':
     model_path = Path(ajustes.DETECCIÓN_MODEL)
-elif selected_task == 'Resnet50':
-    model_path = None  # Asignar None para omitir la carga del modelo
 
 # Cargar modelo ML previamente entrenado
 model = None  # Inicializar el modelo como None
@@ -75,12 +65,4 @@ if fuente_img:
                     res_plotted = res[0].plot()[:, :, ::-1]
                     st.image(res_plotted, caption='Imagen Detectada', use_column_width=True)
                     # Mostrar el número de detecciones
-                    st.write(f'Número de detecciones: {num_detections}')
-                elif selected_task == 'Resnet50':
-                    # llamada a resnet50
-                    res = model.predict(uploaded_image)
-                    # visualizacion resnet 
-                    st.image(res, caption='Imagen Detectada por Resnet50', use_column_width=True)
-                    # Mostrar el número de detecciones
-                    num_detections = len(res)  # Calculamos el número de detecciones aquí
                     st.write(f'Número de detecciones: {num_detections}')
