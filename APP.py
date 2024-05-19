@@ -11,7 +11,6 @@ import ayudaR
 import ayuda
 
 # Configuración del diseño de la página
-
 st.set_page_config(
     page_title="Deteccion de Plagas en la agricultura Mexicana",
     layout="wide",
@@ -24,14 +23,17 @@ st.write("APLICACIÓN PARA LA DETECCIÓN DE INSECTOS Y ÁCAROS EN LA AGRICULTURA
 # Barra lateral
 st.sidebar.header("Configuración del modelo de aprendizaje automático")
 
-# Seleccionar modelo
-selected_task = 'Yolov8'
+# Solo YOLOv8 como opción de modelo
+model_type = 'Yolov8'
 
-# Seleccionar modelo
+# Seleccionado modelo
+selected_task = model_type
+
+# Seleccionado modelo
 if selected_task == 'Yolov8':
     model_path = Path(ajustes.DETECCIÓN_MODEL)
 
-# Cargar modelo ML previamente entrenado
+# Cargar modelo ML previamente entrenado (YOLOv8)
 model = None  # Inicializar el modelo como None
 if model_path is not None:
     try:
@@ -40,7 +42,7 @@ if model_path is not None:
         st.error(f"No se puede cargar el modelo. Verifique la ruta especificada: {model_path}")
         st.error(ex)
 
-# Cargar imagen directamente  
+# Cargar imagen directamente
 fuente_img = st.sidebar.file_uploader("Elige una imagen...", type=("jpg", "jpeg", "png", 'bmp', 'webp'))
 
 if fuente_img:
