@@ -25,19 +25,17 @@ st.write("APLICACIÓN PARA LA DETECCIÓN DE INSECTOS E ACAROS EN LA AGRICULTURA 
 st.sidebar.header("Configuración del modelo de aprendizaje automático")
 
 # Opciones de Modelos 
-model_types_available = ['Yolov8', 'Resnet50']  # Agrega más tareas según sea necesario
-model_type = st.sidebar.multiselect("Seleccionar tarea", model_types_available, default=['Yolov8'])
+model_types_available = ['Resnet50']  # Solo se permite Resnet50
+model_type = st.sidebar.multiselect("Seleccionar tarea", model_types_available, default=['Resnet50'])
 
 if not model_type:
-    model_type = ['Yolov8']
+    st.error("Debes seleccionar al menos un modelo.")
+    st.stop()
 
 selected_task = model_type[0]
 
-# Seleccionado modelo, corregir para dos modelos a la vez
-if selected_task == 'Yolov8':
-    model_path = Path(ajustes.DETECCIÓN_MODEL)
-elif selected_task == 'Resnet50':
-    model_path = None  # Asignar None para omitir la carga del modelo
+# Seleccionado modelo
+model_path = None  # Asignar None para omitir la carga del modelo
 
 # Cargar modelo ML previamente entrenado
 model = None  # Inicializar el modelo como None
@@ -66,16 +64,11 @@ if fuente_img:
 
         with col2:        
             if model is not None:  # Solo ejecutar si se ha cargado un modelo
-                if selected_task == 'Yolov8':
-                    res = model.predict(uploaded_image)
-                    boxes = res[0].boxes
-                    num_detections = len(boxes)
-                    res_plotted = res[0].plot()[:, :, ::-1]
-                    st.image(res_plotted, caption='Imagen Detectada', use_column_width=True)
-                elif selected_task == 'Resnet50':
+                if selected_task == 'Resnet50':
                     # llamada a resnet50
                     res = model.predict(uploaded_image)
                     # visualizacion resnet 
                     st.image(res, caption='Imagen Detectada por Resnet50', use_column_width=True)
                     # Mostrar el número de detecciones
+                    num_detections = len(res)  # Calculamos el número de detecciones aquí
                     st.write(f'Número de detecciones: {num_detections}')
