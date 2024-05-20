@@ -1,9 +1,13 @@
-# Tu código existente para YOLOv8
 from pathlib import Path
 import PIL
+import numpy as np
+from PIL import Image
+from skimage.transform import resize
 
 # Paquetes externos
 import streamlit as st
+from tensorflow.keras.models import load_model
+from tensorflow.keras.applications.imagenet_utils import preprocess_input
 
 # Módulos locales
 import ajustes
@@ -11,7 +15,6 @@ import ayudaR
 import ayuda
 
 # Configuración del diseño de la página
-
 st.set_page_config(
     page_title="Deteccion de Plagas en la agricultura Mexicana",
     layout="wide",
@@ -45,7 +48,12 @@ elif selected_task == 'Resnet50':
 model = None  # Inicializar el modelo como None
 if model_path is not None:
     try:
-        model = ayuda.load_model(model_path)
+        if selected_task == 'Yolov8':
+            # Cargar el modelo YOLOv8
+            model = ayuda.load_model(model_path)
+        elif selected_task == 'Resnet50':
+            # Cargar el modelo ResNet50
+            model = load_model(model_path)
     except Exception as ex:
         st.error(f"No se puede cargar el modelo. Verifique la ruta especificada: {model_path}")
         st.error(ex)
@@ -79,6 +87,8 @@ if fuente_img:
                     
                     # Clasificar la imagen detectada con Resnet50
                     if num_detections > 0:
+                        # Cargar modelo ResNet50
+                        model_resnet = load_model('modelo_resnet50.h5')
                         class_idx, confidence = model_prediction(np.array(uploaded_image), model_resnet)
                         st.success(f'LA CLASE ES: {names[class_idx]} con una confianza del {confidence:.2%}')
                         
