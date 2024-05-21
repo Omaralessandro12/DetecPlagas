@@ -14,6 +14,21 @@ import ajustes
 import ayudaR
 import ayuda
 
+# Define la función model_prediction
+def model_prediction(img, model):
+    width_shape = 224
+    height_shape = 224
+
+    img_resize = resize(img, (width_shape, height_shape))
+    x = preprocess_input(img_resize * 255)
+    x = np.expand_dims(x, axis=0)
+    
+    preds = model.predict(x)[0]  # Solo obtenemos las predicciones para la primera imagen (índice 0)
+    class_idx = np.argmax(preds)  # Índice de la clase predicha
+    confidence = preds[class_idx]  # Nivel de confianza de la predicción
+    
+    return class_idx, confidence
+
 # Configuración del diseño de la página
 st.set_page_config(
     page_title="Deteccion de Plagas en la agricultura Mexicana",
