@@ -73,6 +73,8 @@ if model_path is not None:
         st.error(f"No se puede cargar el modelo. Verifique la ruta especificada: {model_path}")
         st.error(ex)
 
+names = ['ARAÑA ROJA', 'MOSCA BLANCA', 'MOSCA FRUTA', 'PICUDO ROJO','PULGON VERDE']
+
 # Cargar imagen directamente  
 fuente_img = st.sidebar.file_uploader("Elige una imagen...", type=("jpg", "jpeg", "png", 'bmp', 'webp'))
 
