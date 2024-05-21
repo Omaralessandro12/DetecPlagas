@@ -7,23 +7,27 @@ from skimage.transform import resize
 # Paquetes externos
 import streamlit as st
 from tensorflow.keras.models import load_model
-import torch
-import tensorflow as tf
+from tensorflow.keras.applications.imagenet_utils import preprocess_input
 
-# Define la función model_prediction para PyTorch
-def model_prediction_pytorch(img, model):
-    # Preprocesamiento de la imagen
-    img = np.array(img.resize((224, 224)))  # Redimensionar la imagen a 224x224
-    img = img.transpose((2, 0, 1))  # Cambiar el formato de los canales (H, W, C) a (C, H, W)
-    img = img / 255.0  # Normalizar los valores de píxeles al rango [0, 1]
-    img = torch.FloatTensor(img).unsqueeze(0)  # Convertir a tensor y agregar una dimensión adicional (batch)
+# Módulos locales
+import ajustes
+import ayudaR
+import ayuda
+
+# Define la función model_prediction
+def model_prediction(img, model):
+    width_shape = 224
+    height_shape = 224
+
+    img_resize = resize(img, (width_shape, height_shape))
+    x = preprocess_input(img_resize * 255)
+    x = np.expand_dims(x, axis=0)
     
-    # Realizar la predicción
-    with torch.no_grad():
-        output = model(img)
-        _, predicted = torch.max(output, 1)
+    preds = model.predict(x)[0]  # Solo obtenemos las predicciones para la primera imagen (índice 0)
+    class_idx = np.argmax(preds)  # Índice de la clase predicha
+    confidence = preds[class_idx]  # Nivel de confianza de la predicción
     
-    return predicted.item()
+    return class_idx, confidence
 
 # Configuración del diseño de la página
 st.set_page_config(
@@ -49,26 +53,24 @@ if not model_type:
 # Seleccionado modelo
 selected_task = model_type[0]
 
-# Cargar modelo ML previamente entrenado
-model_detection = None  # Inicializar el modelo de detección como None
-model_classification = None  # Inicializar el modelo de clasificación como None
+# Seleccionado modelo, corregir para dos modelos a la vez
+if selected_task == 'Yolov8':
+    model_path = Path(ajustes.DETECCIÓN_MODEL)
+elif selected_task == 'Resnet50':
+    model_path = None  # Asignar None para omitir la carga del modelo
 
-if 'Yolov8' in model_type:
+# Cargar modelo ML previamente entrenado
+model = None  # Inicializar el modelo como None
+if model_path is not None:
     try:
         if selected_task == 'Yolov8':
-            # Supongamos que hay una función load_yolov8_model para cargar el modelo YOLOv8
-            model_detection = load_yolov8_model()
+            # Cargar el modelo YOLOv8
+            model = ayuda.load_model(model_path)
+        elif selected_task == 'Resnet50':
+            # Cargar el modelo ResNet50
+            model = load_model(model_path)
     except Exception as ex:
-        st.error(f"No se puede cargar el modelo YOLOv8. Verifique la ruta especificada.")
-        st.error(ex)
-
-if 'Resnet50' in model_type:
-    try:
-        if selected_task == 'Resnet50':
-            # Cargar el modelo ResNet50 en formato h5 (este es un ejemplo, debes proporcionar la ruta correcta)
-            model_classification = tf.keras.models.load_model('modelo_resnet50.h5')
-    except Exception as ex:
-        st.error(f"No se puede cargar el modelo ResNet50. Verifique la ruta especificada.")
+        st.error(f"No se puede cargar el modelo. Verifique la ruta especificada: {model_path}")
         st.error(ex)
 
 names = ['ARAÑA ROJA', 'MOSCA BLANCA', 'MOSCA FRUTA', 'PICUDO ROJO','PULGON VERDE']
@@ -90,18 +92,28 @@ if fuente_img:
                 st.error(ex)
 
         with col2:        
-            if model_detection is not None and 'Yolov8' in model_type:
-                # Lógica para detectar utilizando YOLOv8 (debes implementar la función para cargar el modelo YOLOv8)
-                # res = model_detection.predict(uploaded_image)
-                # Implementa la lógica para la detección con YOLOv8 aquí
-                st.error("Lógica de detección YOLOv8 no implementada aún.")
-                
-                # Clasificar la imagen detectada con Resnet50
-                if model_classification is not None and 'Resnet50' in model_type:
-                    class_idx = model_prediction_pytorch(uploaded_image, model_classification)
-                    st.success(f'LA CLASE ES: {names[class_idx]}')
-
-            elif model_classification is not None and 'Resnet50' in model_type:
-                # Lógica para clasificar solo con ResNet50
-                # Implementa la lógica para la clasificación con ResNet50 aquí
-                st.error("Lógica de clasificación ResNet50 no implementada aún.")
+            if model is not None:  # Solo ejecutar si se ha cargado un modelo
+                if selected_task == 'Yolov8':
+                    res = model.predict(uploaded_image)
+                    boxes = res[0].boxes
+                    num_detections = len(boxes)
+                    res_plotted = res[0].plot()[:, :, ::-1]
+                    st.image(res_plotted, caption='Imagen Detectada', use_column_width=True)
+                    # Mostrar el número de detecciones
+                    st.write(f'Número de detecciones: {num_detections}')
+                    
+                    # Clasificar la imagen detectada con Resnet50
+                    if num_detections > 0:
+                        # Cargar modelo ResNet50
+                        model_resnet = load_model('modelo_resnet50.h5')
+                        class_idx, confidence = model_prediction(np.array(uploaded_image), model_resnet)
+                        st.success(f'LA CLASE ES: {names[class_idx]} con una confianza del {confidence:.2%}')
+                        
+                elif selected_task == 'Resnet50':
+                    # llamada a resnet50
+                    res = model.predict(uploaded_image)
+                    # visualizacion resnet 
+                    st.image(res, caption='Imagen Detectada por Resnet50', use_column_width=True)
+                    # Mostrar el número de detecciones
+                    num_detections = len(res)  # Calculamos el número de detecciones aquí
+                    st.write(f'Número de detecciones: {num_detections}')
