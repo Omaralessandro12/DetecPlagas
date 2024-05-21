@@ -6,6 +6,7 @@ from skimage.transform import resize
 
 # Paquetes externos
 import streamlit as st
+from tensorflow.keras.models import load_model
 import torch
 import tensorflow as tf
 
@@ -55,7 +56,7 @@ model_classification = None  # Inicializar el modelo de clasificación como None
 if 'Yolov8' in model_type:
     try:
         if selected_task == 'Yolov8':
-            # Cargar el modelo YOLOv8 (no incluido en este ejemplo, asegúrate de tener la función para cargarlo)
+            # Supongamos que hay una función load_yolov8_model para cargar el modelo YOLOv8
             model_detection = load_yolov8_model()
     except Exception as ex:
         st.error(f"No se puede cargar el modelo YOLOv8. Verifique la ruta especificada.")
