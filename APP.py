@@ -31,7 +31,7 @@ def model_prediction(img, model):
 
 # Configuración del diseño de la página
 st.set_page_config(
-    page_title="Deteccion de Plagas en la agricultura Mexicana",
+    page_title="Deteccion y clasificacion de Plagas en la agricultura Mexicana",
     layout="wide",
     initial_sidebar_state="expanded"
 )
