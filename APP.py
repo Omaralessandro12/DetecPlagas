@@ -69,7 +69,7 @@ if 'Resnet50' in selected_tasks:
         st.error(f"No se puede cargar el modelo ResNet50. Verifique la ruta especificada: {resnet50_model_path}")
         st.error(ex)
 
-names = ['ARAÑA ROJA', 'MOSCA BLANCA', 'MOSCA FRUTA', 'PICUDO ROJO','PULGON VERDE']
+names = ['ARAÑA ROJA', 'MOSCA BLANCA', 'MOSCA FRUTA', 'PICUDO ROJO', 'PULGON VERDE']
 
 # Cargar imagen directamente  
 fuente_img = st.sidebar.file_uploader("Elige una imagen...", type=("jpg", "jpeg", "png", 'bmp', 'webp'))
@@ -97,10 +97,11 @@ if fuente_img:
                 st.write(f'Número de detecciones: {num_detections}')
                 
                 for i, box in enumerate(boxes):
-                    x_min, y_min, x_max, y_max = box.xyxy
-                    detected_image = uploaded_image.crop((x_min, y_min, x_max, y_max))
-                    class_idx, confidence = model_prediction(np.array(detected_image), models['Resnet50'])
-                    st.write(f'Detección {i+1}: {names[class_idx]} con una confianza del {confidence:.2%}')
+                    if box:  # Asegúrate de que la caja no esté vacía
+                        x_min, y_min, x_max, y_max = box.xyxy[0]
+                        detected_image = uploaded_image.crop((x_min, y_min, x_max, y_max))
+                        class_idx, confidence = model_prediction(np.array(detected_image), models['Resnet50'])
+                        st.write(f'Detección {i+1}: {names[class_idx]} con una confianza del {confidence:.2%}')
                     
             elif 'Resnet50' in models:
                 class_idx, confidence = model_prediction(np.array(uploaded_image), models['Resnet50'])
