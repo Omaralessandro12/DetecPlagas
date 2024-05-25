@@ -1,10 +1,9 @@
 from pathlib import Path
-import PIL
 import numpy as np
+import PIL
 from PIL import Image
 from skimage.transform import resize
 
-# Paquetes externos
 import streamlit as st
 from tensorflow.keras.models import load_model
 from tensorflow.keras.applications.imagenet_utils import preprocess_input
@@ -31,12 +30,12 @@ def model_prediction(img, model):
 
 # Configuración del diseño de la página
 st.set_page_config(
-    page_title="Deteccion y clasificacion de Plagas en la agricultura Mexicana",
+    page_title="Detección y Clasificación de Plagas en la Agricultura Mexicana",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-st.title("Detección de Plagas en la agricultura Mexicana")
+st.title("Detección de Plagas en la Agricultura Mexicana")
 st.write("APLICACIÓN PARA LA DETECCIÓN DE INSECTOS Y ÁCAROS EN LA AGRICULTURA MEXICANA")
 
 # Barra lateral
@@ -97,9 +96,11 @@ if fuente_img:
                 st.image(res_plotted, caption='Imagen Detectada por YOLOv8', use_column_width=True)
                 st.write(f'Número de detecciones: {num_detections}')
                 
-                if 'Resnet50' in models and num_detections > 0:
-                    class_idx, confidence = model_prediction(np.array(uploaded_image), models['Resnet50'])
-                    st.success(f'LA CLASE ES: {names[class_idx]} con una confianza del {confidence:.2%}')
+                for i, box in enumerate(boxes):
+                    x_min, y_min, x_max, y_max = box.xyxy
+                    detected_image = uploaded_image.crop((x_min, y_min, x_max, y_max))
+                    class_idx, confidence = model_prediction(np.array(detected_image), models['Resnet50'])
+                    st.write(f'Detección {i+1}: {names[class_idx]} con una confianza del {confidence:.2%}')
                     
             elif 'Resnet50' in models:
                 class_idx, confidence = model_prediction(np.array(uploaded_image), models['Resnet50'])
