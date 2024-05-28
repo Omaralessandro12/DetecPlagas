@@ -1,0 +1,2 @@
+# IDENTIFICACIONDEPLAGAS
+Puebras de deteccion 
