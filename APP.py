@@ -62,7 +62,7 @@ if 'Yolov8' in selected_tasks:
         st.error(ex)
 
 if 'Resnet50' in selected_tasks:
-    resnet50_model_path = 'modelo_resnet50.h5'
+    resnet50_model_path = 'modelo_resnet50_3.h5'
     try:
         resnet50_model = load_model(resnet50_model_path)
         models['Resnet50'] = resnet50_model
