@@ -99,9 +99,14 @@ if fuente_img:
                 
                 if 'Resnet50' in models and num_detections > 0:
                     class_idx, confidence = model_prediction(np.array(uploaded_image), models['Resnet50'])
-                    st.success(f'LA CLASIFICACION ES: {names[class_idx]} con una confianza del {confidence:.2%}')
+                    st.success(f'LA CLASE ENCONTRADA ES: {names[class_idx]} con un grado de certeza del {confidence:.2%}')
                     
             elif 'Resnet50' in models:
                 class_idx, confidence = model_prediction(np.array(uploaded_image), models['Resnet50'])
                 st.image(uploaded_image, caption='Imagen Detectada por Resnet50', use_column_width=True)
-                st.success(f'LA CLASIFICACION ES  {names[class_idx]} con una confianza del {confidence:.2%}')
+                st.success(f'LA CLASE ENCONTRADA ES: {names[class_idx]} con un grado de certeza del {confidence:.2%}')
+
+
+
+
+
