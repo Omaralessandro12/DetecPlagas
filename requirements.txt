@@ -1,5 +1,4 @@
 #--------------------------
-git+https://github.com/gatagat/lap@new-packaging
 lap==0.4.0
 streamlit==1.2.0 
 torch==2.0.1 
