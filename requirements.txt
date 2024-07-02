@@ -1,4 +1,4 @@
-git+https://github.com/gatagat/lap@new-packaging
+git+https://github.com/gatagat/lap@main 
 streamlit==1.2.0 
 torch==2.3.1 
 ultralytics==8.0.150
