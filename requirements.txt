@@ -9,3 +9,4 @@ Pillow
 numpy
 protobuf
 scikit-image
+twilio~=8.9.1
