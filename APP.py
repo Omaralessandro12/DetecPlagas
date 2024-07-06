@@ -36,8 +36,8 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-st.title("Detección de Plagas en la agricultura Mexicana")
-st.write("APLICACIÓN PARA LA DETECCIÓN DE INSECTOS Y ÁCAROS EN LA AGRICULTURA MEXICANA")
+st.title("Detección y Clasificación de Plagas en la agricultura Mexicana")
+st.write("APLICACIÓN PARA LA DETECCIÓN Y CLASIFICACION DE INSECTOS Y ÁCAROS EN LA AGRICULTURA MEXICANA")
 
 # Barra lateral
 st.sidebar.header("Configuración del modelo de aprendizaje automático")
