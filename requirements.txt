@@ -1,12 +1,8 @@
-git+https://github.com/gatagat/lap@new-packaging
+numpy==1.25.0
 streamlit==1.22.0
-torch==2.3.1 
-ultralytics==8.0.93
+streamlit-webrtc==0.35.1
+torch==2.0.1
+ultralytics==8.0.150
 pafy==0.5.5
-av
-tensorflow-cpu
-Pillow
-numpy
-protobuf
-scikit-image
 twilio~=8.9.1
+git+https://github.com/fullmakeralchemist/pytube/
