@@ -10,6 +10,5 @@ pafy==0.5.5
 av
 protobuf
 twilio~=8.9.1
-tensorflow==2.29.0
 tensorflow-cpu
 git+https://github.com/fullmakeralchemist/pytube/
