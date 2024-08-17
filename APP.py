@@ -37,7 +37,8 @@ st.set_page_config(
 )
 
 st.title("Detección y Clasificación de Plagas en la Agricultura Mexicana")
-st.write("APLICACIÓN PARA LA DETECCIÓN Y CLASIFICACION DE INSECTOS Y ÁCAROS EN LA AGRICULTURA MEXICANA")
+st.write("Aplicación que ayuda a identificar las cinco plagas más comunes en la agricultura mexicana,
+como la araña roja, el pulgón verde, la mosca blanca, la mosca de la fruta y el picudo rojo.")
 
 # Barra lateral
 st.sidebar.header("Configuración del modelo de aprendizaje automático")
