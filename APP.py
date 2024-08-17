@@ -36,7 +36,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-st.title("Detección y Clasificación de Plagas en la agricultura Mexicana")
+st.title("Detección y Clasificación de Plagas en la Agricultura Mexicana")
 st.write("APLICACIÓN PARA LA DETECCIÓN Y CLASIFICACION DE INSECTOS Y ÁCAROS EN LA AGRICULTURA MEXICANA")
 
 # Barra lateral
