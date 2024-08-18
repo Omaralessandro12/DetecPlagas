@@ -3,9 +3,11 @@ import PIL
 import numpy as np
 from PIL import Image
 from skimage.transform import resize
+
 import streamlit as st
 from tensorflow.keras.models import load_model
 from tensorflow.keras.applications.imagenet_utils import preprocess_input
+
 import ajustes
 import ayudaR
 import ayuda
@@ -19,27 +21,27 @@ def model_prediction(img, model):
     x = preprocess_input(img_resize * 255)
     x = np.expand_dims(x, axis=0)
     
-    preds = model.predict(x)[0]  # Solo obtenemos las predicciones para la primera imagen (índice 0)
-    class_idx = np.argmax(preds)  # Índice de la clase predicha
-    confidence = preds[class_idx]  # Nivel de confianza de la predicción
+    preds = model.predict(x)[0]
+    class_idx = np.argmax(preds)
+    confidence = preds[class_idx]
     
     return class_idx, confidence
 
 # Configuración del diseño de la página
 st.set_page_config(
-    page_title="Deteccion y clasificacion de Plagas en la Agricultura Mexicana",
+    page_title="Detección y Clasificación de Plagas en la Agricultura Mexicana",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
 st.title("Detección y Clasificación de Plagas en la Agricultura Mexicana")
-st.write("Aplicación que ayuda a identificar las cinco plagas más comunes en la agricultura mexicana,como la araña roja, el pulgón verde, la mosca blanca, la mosca de la fruta y el picudo rojo.")
+st.write("Aplicación que ayuda a identificar las cinco plagas más comunes en la agricultura mexicana, como la araña roja, el pulgón verde, la mosca blanca, la mosca de la fruta y el picudo rojo.")
 
 # Barra lateral
 st.sidebar.header("Configuración del modelo de aprendizaje automático")
 
 # Opciones de Modelos 
-model_types_available = ['Yolov8', 'Resnet50']  # Agrega más tareas según sea necesario
+model_types_available = ['Yolov8', 'Resnet50']
 selected_tasks = st.sidebar.multiselect("Seleccionar tarea", model_types_available, default=['Yolov8'])
 
 if not selected_tasks:
@@ -68,50 +70,54 @@ if 'Resnet50' in selected_tasks:
 
 names = ['ARAÑA ROJA', 'MOSCA BLANCA', 'MOSCA FRUTA', 'PICUDO ROJO','PULGON VERDE']
 
-# Mostrar banco de imágenes
-st.sidebar.header("Banco de Imágenes")
-images_folder = Path('Imagenes')  # Ruta a la carpeta de imágenes en tu GitHub
-image_files = list(images_folder.glob('*.*'))
+# Imágenes predeterminadas
+default_images = {
+    "Araña Roja": "imagenes/aranya_roja.jpg",
+    "Mosca Blanca": "imagenes/mosca_blanca.jpg",
+    "Mosca de la Fruta": "imagenes/mosca_fruta.jpg",
+    "Picudo Rojo": "imagenes/picudo_rojo.jpg",
+    "Pulgón Verde": "imagenes/pulgon_verde.jpg"
+}
 
-selected_image = None
+# Seleccionar imagen predeterminada
+selected_image = st.sidebar.selectbox("Selecciona una imagen predeterminada", list(default_images.keys()))
 
-if image_files:
-    cols = st.sidebar.columns(4)
-    for i, image_file in enumerate(image_files):
-        img = Image.open(image_file)
-        cols[i % 4].image(img, caption=image_file.name, use_column_width=True)
-        if cols[i % 4].button(f'Seleccionar {image_file.name}'):
-            selected_image = image_file
+# Cargar imagen directamente  
+fuente_img = st.sidebar.file_uploader("O sube una imagen...", type=("jpg", "jpeg", "png", 'bmp', 'webp'))
 
-# Procesar la imagen seleccionada o cargada
-fuente_img = st.sidebar.file_uploader("O elige una imagen desde tu dispositivo...", type=("jpg", "jpeg", "png", 'bmp', 'webp'))
+# Cargar la imagen seleccionada
+if fuente_img:
+    img = PIL.Image.open(fuente_img)
+else:
+    img = PIL.Image.open(default_images[selected_image])
 
-if selected_image or fuente_img:
-    if st.sidebar.button('Detectar Plaga'):
-        col1, col2 = st.columns(2)
+# Mostrar imagen seleccionada
+st.image(img, caption=f"Imagen: {selected_image}", use_column_width=True)
 
-        with col1:
-            try:
-                uploaded_image = PIL.Image.open(selected_image if selected_image else fuente_img)
-                st.image(uploaded_image, caption="Imagen Original", use_column_width=True)
-            except Exception as ex:
-                st.error("Se produjo un error al abrir la imagen.")
-                st.error(ex)
+if st.sidebar.button('Detectar Plaga'):
+    col1, col2 = st.columns(2)
 
-        with col2:        
-            if 'Yolov8' in models:
-                res = models['Yolov8'].predict(uploaded_image)
-                boxes = res[0].boxes
-                num_detections = len(boxes)
-                res_plotted = res[0].plot()[:, :, ::-1]
-                st.image(res_plotted, caption='Imagen Detectada por YOLOv8', use_column_width=True)
-                st.write(f'Número de detecciones: {num_detections}')
+    with col1:
+        try:
+            st.image(img, caption="Imagen Original", use_column_width=True)
+        except Exception as ex:
+            st.error("Se produjo un error al abrir la imagen.")
+            st.error(ex)
+
+    with col2:        
+        if 'Yolov8' in models:
+            res = models['Yolov8'].predict(img)
+            boxes = res[0].boxes
+            num_detections = len(boxes)
+            res_plotted = res[0].plot()[:, :, ::-1]
+            st.image(res_plotted, caption='Imagen Detectada por YOLOv8', use_column_width=True)
+            st.write(f'Número de detecciones: {num_detections}')
+            
+            if 'Resnet50' in models and num_detections > 0:
+                class_idx, confidence = model_prediction(np.array(img), models['Resnet50'])
+                st.success(f'LA CLASIFICACION ES: {names[class_idx]} con una confianza del {confidence:.2%}')
                 
-                if 'Resnet50' in models and num_detections > 0:
-                    class_idx, confidence = model_prediction(np.array(uploaded_image), models['Resnet50'])
-                    st.success(f'LA CLASIFICACION ES: {names[class_idx]} con una confianza del {confidence:.2%}')
-                    
-            elif 'Resnet50' in models:
-                class_idx, confidence = model_prediction(np.array(uploaded_image), models['Resnet50'])
-                st.image(uploaded_image, caption='Imagen Detectada por Resnet50', use_column_width=True)
-                st.success(f'LA CLASIFICACION ES  {names[class_idx]} con una confianza del {confidence:.2%}')
+        elif 'Resnet50' in models:
+            class_idx, confidence = model_prediction(np.array(img), models['Resnet50'])
+            st.image(img, caption='Imagen Detectada por Resnet50', use_column_width=True)
+            st.success(f'LA CLASIFICACION ES  {names[class_idx]} con una confianza del {confidence:.2%}')
