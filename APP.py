@@ -3,13 +3,9 @@ import PIL
 import numpy as np
 from PIL import Image
 from skimage.transform import resize
-
-# Paquetes externos
 import streamlit as st
 from tensorflow.keras.models import load_model
 from tensorflow.keras.applications.imagenet_utils import preprocess_input
-
-# Módulos locales
 import ajustes
 import ayudaR
 import ayuda
@@ -72,18 +68,32 @@ if 'Resnet50' in selected_tasks:
 
 names = ['ARAÑA ROJA', 'MOSCA BLANCA', 'MOSCA FRUTA', 'PICUDO ROJO','PULGON VERDE']
 
-# Cargar imagen directamente  
-fuente_img = st.sidebar.file_uploader("Elige una imagen...", type=("jpg", "jpeg", "png", 'bmp', 'webp'))
+# Mostrar banco de imágenes
+st.sidebar.header("Banco de Imágenes")
+images_folder = Path('Imagenes')  # Ruta a la carpeta de imágenes en tu GitHub
+image_files = list(images_folder.glob('*.*'))
 
-if fuente_img:
+selected_image = None
+
+if image_files:
+    cols = st.sidebar.columns(4)
+    for i, image_file in enumerate(image_files):
+        img = Image.open(image_file)
+        cols[i % 4].image(img, caption=image_file.name, use_column_width=True)
+        if cols[i % 4].button(f'Seleccionar {image_file.name}'):
+            selected_image = image_file
+
+# Procesar la imagen seleccionada o cargada
+fuente_img = st.sidebar.file_uploader("O elige una imagen desde tu dispositivo...", type=("jpg", "jpeg", "png", 'bmp', 'webp'))
+
+if selected_image or fuente_img:
     if st.sidebar.button('Detectar Plaga'):
         col1, col2 = st.columns(2)
 
         with col1:
             try:
-                if fuente_img:
-                    uploaded_image = PIL.Image.open(fuente_img)
-                    st.image(uploaded_image, caption="Imagen Original", use_column_width=True)
+                uploaded_image = PIL.Image.open(selected_image if selected_image else fuente_img)
+                st.image(uploaded_image, caption="Imagen Original", use_column_width=True)
             except Exception as ex:
                 st.error("Se produjo un error al abrir la imagen.")
                 st.error(ex)
