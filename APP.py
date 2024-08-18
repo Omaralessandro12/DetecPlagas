@@ -1,13 +1,11 @@
+import streamlit as st
 from pathlib import Path
 import PIL
 import numpy as np
 from PIL import Image
 from skimage.transform import resize
-
-import streamlit as st
 from tensorflow.keras.models import load_model
 from tensorflow.keras.applications.imagenet_utils import preprocess_input
-
 import ajustes
 import ayudaR
 import ayuda
@@ -37,6 +35,23 @@ st.set_page_config(
 st.title("Detección y Clasificación de Plagas en la Agricultura Mexicana")
 st.write("Aplicación que ayuda a identificar las cinco plagas más comunes en la agricultura mexicana, como la araña roja, el pulgón verde, la mosca blanca, la mosca de la fruta y el picudo rojo.")
 
+# Botón de Ayuda
+if st.sidebar.button('Ayuda'):
+    st.sidebar.info("""
+    **Nombre del Proyecto:** Detección y Clasificación de Plagas en la Agricultura Mexicana
+    
+    **Autor:** Tu Nombre
+    
+    **Institución:** Universidad Autónoma Metropolitana (UAM)
+    
+    **Objetivos del Proyecto:**
+    - Identificar las cinco plagas más comunes en la agricultura mexicana.
+    - Proveer una herramienta que ayude a los agricultores a detectar plagas de manera temprana.
+    
+    **Justificación:**
+    Este proyecto tiene como objetivo principal facilitar la detección temprana de plagas en cultivos agrícolas mediante el uso de tecnologías de aprendizaje automático. La identificación oportuna puede ayudar a reducir las pérdidas económicas y mejorar la productividad agrícola.
+    """)
+    
 # Barra lateral
 st.sidebar.header("Configuración del modelo de aprendizaje automático")
 
