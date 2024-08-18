@@ -35,9 +35,25 @@ st.set_page_config(
 st.title("Detección y Clasificación de Plagas en la Agricultura Mexicana")
 st.write("Aplicación que ayuda a identificar las cinco plagas más comunes en la agricultura mexicana, como la araña roja, el pulgón verde, la mosca blanca, la mosca de la fruta y el picudo rojo.")
 
-# Botón de Ayuda
-if st.sidebar.button('Ayuda'):
-    st.sidebar.info("""
+# Inicializar el estado para mostrar/ocultar la sección de ayuda
+if 'show_help' not in st.session_state:
+    st.session_state['show_help'] = False
+
+# Mostrar u ocultar la sección de ayuda
+def toggle_help():
+    st.session_state['show_help'] = not st.session_state['show_help']
+
+# Barra lateral
+st.sidebar.header("Configuración del modelo de aprendizaje automático")
+
+# Colocar el botón de ayuda en la parte inferior de la barra lateral
+st.sidebar.markdown('<div style="position: absolute; bottom: 0; width: 100%;">', unsafe_allow_html=True)
+st.sidebar.button('Ayuda', on_click=toggle_help)
+st.sidebar.markdown('</div>', unsafe_allow_html=True)
+
+# Mostrar la información de ayuda en la página principal si se ha activado
+if st.session_state['show_help']:
+    st.info("""
     **Nombre del Proyecto:** Detección y Clasificación de Plagas en la Agricultura Mexicana
     
     **Autor:** Tu Nombre
@@ -51,9 +67,8 @@ if st.sidebar.button('Ayuda'):
     **Justificación:**
     Este proyecto tiene como objetivo principal facilitar la detección temprana de plagas en cultivos agrícolas mediante el uso de tecnologías de aprendizaje automático. La identificación oportuna puede ayudar a reducir las pérdidas económicas y mejorar la productividad agrícola.
     """)
-    
-# Barra lateral
-st.sidebar.header("Configuración del modelo de aprendizaje automático")
+    if st.button('Cerrar'):
+        st.session_state['show_help'] = False
 
 # Opciones de Modelos 
 model_types_available = ['Yolov8', 'Resnet50']
