@@ -48,7 +48,7 @@ st.sidebar.header("Configuración del modelo de aprendizaje automático")
 
 # Opciones de Modelos 
 model_types_available = ['Yolov8', 'Resnet50']
-selected_tasks = st.sidebar.multiselect("Seleccionar un Modelo", model_types_available, default=['Yolov8'])
+selected_tasks = st.sidebar.multiselect("Seleccionar una Tarea", model_types_available, default=['Yolov8'])
 
 if not selected_tasks:
     st.error("Debes seleccionar al menos un modelo.")
