@@ -46,30 +46,6 @@ def toggle_help():
 # Barra lateral
 st.sidebar.header("Configuración del modelo de aprendizaje automático")
 
-# Colocar el botón de ayuda en la parte inferior de la barra lateral
-st.sidebar.markdown('<div style="position: absolute; bottom: 0; width: 100%;">', unsafe_allow_html=True)
-st.sidebar.button('Ayuda', on_click=toggle_help)
-st.sidebar.markdown('</div>', unsafe_allow_html=True)
-
-# Mostrar la información de ayuda en la página principal si se ha activado
-if st.session_state['show_help']:
-    st.info("""
-    **Nombre del Proyecto:** Detección y Clasificación de Plagas en la Agricultura Mexicana
-    
-    **Autor:** Tu Nombre
-    
-    **Institución:** Universidad Autónoma Metropolitana (UAM)
-    
-    **Objetivos del Proyecto:**
-    - Identificar las cinco plagas más comunes en la agricultura mexicana.
-    - Proveer una herramienta que ayude a los agricultores a detectar plagas de manera temprana.
-    
-    **Justificación:**
-    Este proyecto tiene como objetivo principal facilitar la detección temprana de plagas en cultivos agrícolas mediante el uso de tecnologías de aprendizaje automático. La identificación oportuna puede ayudar a reducir las pérdidas económicas y mejorar la productividad agrícola.
-    """)
-    if st.button('Cerrar'):
-        st.session_state['show_help'] = False
-
 # Opciones de Modelos 
 model_types_available = ['Yolov8', 'Resnet50']
 selected_tasks = st.sidebar.multiselect("Seleccionar tarea", model_types_available, default=['Yolov8'])
@@ -159,3 +135,25 @@ if st.sidebar.button('Detectar Plaga'):
             class_idx, confidence = model_prediction(np.array(img), models['Resnet50'])
             st.image(img, caption='Imagen Detectada por Resnet50', use_column_width=True)
             st.success(f'LA CLASIFICACION ES  {names[class_idx]} con una confianza del {confidence:.2%}')
+
+# Botón de ayuda justo debajo del botón de "Detectar Plaga"
+st.sidebar.button('Ayuda', on_click=toggle_help)
+
+# Mostrar la información de ayuda en la página principal si se ha activado
+if st.session_state['show_help']:
+    st.info("""
+    **Nombre del Proyecto:** Detección y Clasificación de Plagas en la Agricultura Mexicana
+    
+    **Autor:** Tu Nombre
+    
+    **Institución:** Universidad Autónoma Metropolitana (UAM)
+    
+    **Objetivos del Proyecto:**
+    - Identificar las cinco plagas más comunes en la agricultura mexicana.
+    - Proveer una herramienta que ayude a los agricultores a detectar plagas de manera temprana.
+    
+    **Justificación:**
+    Este proyecto tiene como objetivo principal facilitar la detección temprana de plagas en cultivos agrícolas mediante el uso de tecnologías de aprendizaje automático. La identificación oportuna puede ayudar a reducir las pérdidas económicas y mejorar la productividad agrícola.
+    """)
+    if st.button('Cerrar'):
+        st.session_state['show_help'] = False
