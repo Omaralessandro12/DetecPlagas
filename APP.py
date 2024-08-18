@@ -72,28 +72,36 @@ names = ['ARAÑA ROJA', 'MOSCA BLANCA', 'MOSCA FRUTA', 'PICUDO ROJO','PULGON VER
 
 # Imágenes predeterminadas
 default_images = {
-    "Araña Roja": "imagenes/aranya_roja.jpg",
-    "Mosca Blanca": "imagenes/mosca_blanca.jpg",
-    "Mosca de la Fruta": "imagenes/mosca_fruta.jpg",
-    "Picudo Rojo": "imagenes/picudo_rojo.jpg",
-    "Pulgón Verde": "imagenes/pulgon_verde.jpg"
+    "Araña Roja": "Imagenes/ar.jpg",
+    "Mosca Blanca": "Imagenes/mb.jpg",
+    "Mosca de la Fruta": "Imagenes/mf.jpg",
+    "Picudo Rojo": "Imagenes/pr.jpg",
+    "Pulgón Verde": "Imagenes/pv.jpg"
 }
 
-# Seleccionar imagen predeterminada
-selected_image = st.sidebar.selectbox("Selecciona una imagen predeterminada", list(default_images.keys()))
+# Mostrar las imágenes predeterminadas en la barra lateral y permitir la selección
+selected_image = st.sidebar.radio(
+    "Selecciona una imagen predeterminada para cargar:",
+    list(default_images.keys()),
+    format_func=lambda x: f"{x}"
+)
 
-# Cargar imagen directamente  
+# Mostrar la imagen seleccionada en la barra lateral
+st.sidebar.image(default_images[selected_image], caption=selected_image, use_column_width=True)
+
+# Opción para que el usuario suba una imagen personalizada
 fuente_img = st.sidebar.file_uploader("O sube una imagen...", type=("jpg", "jpeg", "png", 'bmp', 'webp'))
 
-# Cargar la imagen seleccionada
+# Cargar la imagen seleccionada o la imagen subida por el usuario
 if fuente_img:
     img = PIL.Image.open(fuente_img)
 else:
     img = PIL.Image.open(default_images[selected_image])
 
-# Mostrar imagen seleccionada
+# Mostrar la imagen seleccionada en la interfaz principal
 st.image(img, caption=f"Imagen: {selected_image}", use_column_width=True)
 
+# Botón para realizar la detección de plagas
 if st.sidebar.button('Detectar Plaga'):
     col1, col2 = st.columns(2)
 
@@ -104,7 +112,7 @@ if st.sidebar.button('Detectar Plaga'):
             st.error("Se produjo un error al abrir la imagen.")
             st.error(ex)
 
-    with col2:        
+    with col2:
         if 'Yolov8' in models:
             res = models['Yolov8'].predict(img)
             boxes = res[0].boxes
