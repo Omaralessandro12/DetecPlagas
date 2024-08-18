@@ -48,7 +48,7 @@ st.sidebar.header("Configuración del modelo de aprendizaje automático")
 
 # Opciones de Modelos 
 model_types_available = ['Yolov8', 'Resnet50']
-selected_tasks = st.sidebar.multiselect("Seleccionar tarea", model_types_available, default=['Yolov8'])
+selected_tasks = st.sidebar.multiselect("Seleccionar un Modelo", model_types_available, default=['Yolov8'])
 
 if not selected_tasks:
     st.error("Debes seleccionar al menos un modelo.")
@@ -96,7 +96,7 @@ selected_image = st.sidebar.radio(
 st.sidebar.image(default_images[selected_image], caption=selected_image, use_column_width=True)
 
 # Opción para que el usuario suba una imagen personalizada
-fuente_img = st.sidebar.file_uploader("O sube una imagen...", type=("jpg", "jpeg", "png", 'bmp', 'webp'))
+fuente_img = st.sidebar.file_uploader("O sube una imagen desde su dispositivo...", type=("jpg", "jpeg", "png", 'bmp', 'webp'))
 
 # Cargar la imagen seleccionada o la imagen subida por el usuario
 if fuente_img:
@@ -144,9 +144,9 @@ if st.session_state['show_help']:
     st.info("""
     **Nombre del Proyecto:** Detección y Clasificación de Plagas en la Agricultura Mexicana
     
-    **Autor:** Tu Nombre
+    **Autor:** Omar Alejandro Ruiz Mendoza
     
-    **Institución:** Universidad Autónoma Metropolitana (UAM)
+    **Institución:** Universidad Autónoma Metropolitana - Unidad Azcapotzalco
     
     **Objetivos del Proyecto:**
     - Identificar las cinco plagas más comunes en la agricultura mexicana.
