@@ -2,8 +2,8 @@
 git+https://github.com/fullmakeralchemist/pytube/
 
 # Dependencias de Python
-streamlit==1.2.0 
-torch==2.2.2 
+streamlit>=1.2.0 
+torch==2.2.0 
 ultralytics==8.0.150
 pafy==0.5.5
 av
